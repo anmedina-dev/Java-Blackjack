@@ -1,6 +1,7 @@
 import java.util.*;
 
 public class blackjack{
+
     public static void main(String[] args) {
         
         //get player info and make a player to compare to the original player
@@ -112,7 +113,7 @@ public class blackjack{
                 user.setAmount(user.getAmount() - betAmount);
                 System.out.println("You busted!");
                 System.out.println("You lost " + betAmount);
-                System.out.println("You know have a total of " + user.getAmount() + "left to play with");
+                System.out.println("You know have a total of " + user.getAmount() + " left to play with");
                 choice = false;
             }
             if(handTotals[0]==21){
@@ -123,8 +124,9 @@ public class blackjack{
                 choice = false;
             }
             else{ //If player chooses to push
-                System.out.println("Would you like to push or stand? (Type Push/Stand");
-                playerChoice = myObj.nextLine();
+                System.out.println("Would you like to push or stand? (Type Push/Stand)");
+                Scanner scan = new Scanner(System.in);
+                playerChoice = scan.nextLine();
                 if(playerChoice.compareTo("Push")==0){
                     playerCards.add(deck.get(cardCounter));
                     cardCounter++;
@@ -142,6 +144,8 @@ public class blackjack{
         else{
             handTotals = readHandAfterFlop(playerCards, dealerCards);
             while(handTotals[1]<17){
+                dealerCards.add(deck.get(cardCounter));
+                cardCounter++;
                 if(handTotals[1]>21){//Dealer busts
                     System.out.println("Dealer busted! You win!");
                     user.setAmount(user.getAmount() + betAmount);
@@ -183,7 +187,7 @@ public class blackjack{
         //13 different cards
         //4 different suits
         for(int i=0; i<50; i++){
-            int value = (int) (Math.random() * ((1 - 13) + 1)) + 1;
+            int value = (int) (Math.random() * ((13 - 1) + 1)) + 1;
             int suit = (int) (Math.random() * ((4 - 1) + 1)) + 1;
             card deckCard = new card(value, suit);
             deck.add(deckCard);
@@ -257,16 +261,16 @@ public class blackjack{
         //Textual value of the suit of the card
         switch(cardVal.suit){
             case 1:
-                cardPlayed.concat("Spades");
+                cardPlayed = cardPlayed + "Spades";
                 break;
             case 2:
-                cardPlayed.concat("Clubs");
+                cardPlayed = cardPlayed + "Clubs";
                 break;
             case 3:
-                cardPlayed.concat("Hearts");
+                cardPlayed = cardPlayed + "Hearts";
                 break;
             case 4:
-                cardPlayed.concat("Diamonds");
+                cardPlayed = cardPlayed + "Diamonds";
                 break;
         }
 
@@ -283,21 +287,21 @@ public class blackjack{
         System.out.print("You have:");
         try{
             for(int i = 0; i < playerHand.size(); i++){
-                System.out.print(" " + cardValReader(playerHand.get(i)));
+                System.out.print(" " + cardValReader(playerHand.get(i)) + ",");
                 handTotals[0] = handTotals[0] + cardToNumber(playerHand.get(i));
             }
         }
         catch(NullPointerException e){
             System.out.println("oops");
         }
-        System.out.println(" totaling: " + handTotals[0]);
+        System.out.println(" Totaling: " + handTotals[0]);
 
         //Dealer hands and total
         System.out.print("Dealer has:");
         try{
             for(int i = 0; i < playerHand.size(); i++){
-                System.out.print(" " + cardValReader(playerHand.get(i)));
-                handTotals[1] = handTotals[1] + cardToNumber(playerHand.get(i));
+                System.out.print(" " + cardValReader(dealerHand.get(i)) + ",");
+                handTotals[1] = handTotals[1] + cardToNumber(dealerHand.get(i));
             }
         }
         catch(NullPointerException e){}
@@ -305,7 +309,7 @@ public class blackjack{
         aceFind = findAce(dealerHand);
         if(handTotals[1]>21 && aceFind==true)
             handTotals[1] = handTotals[1] - 10;
-        System.out.println(" totaling: " + handTotals[1]);
+        System.out.println(" Totaling: " + handTotals[1]);
         System.out.println("------------------------------------------------------");
 
         return(handTotals);
@@ -326,7 +330,7 @@ public class blackjack{
         System.out.print("You have:");
         try{
             for(int i = 0; i < playerHand.size(); i++){
-                System.out.print(" " + cardValReader(playerHand.get(i)));
+                System.out.print(" " + cardValReader(playerHand.get(i)) + ",");
                 handTotals[0] = handTotals[0] + cardToNumber(playerHand.get(i));
             }
         }
@@ -335,10 +339,10 @@ public class blackjack{
         aceFind = findAce(playerHand);
         if(handTotals[0]>21 && aceFind==true)
             handTotals[0] = handTotals[0] - 10;
-        System.out.println(" totaling: " + handTotals[0]);
+        System.out.println(" Totaling: " + handTotals[0]);
 
         //Dealer hands and total but only showing the second card
-        System.out.print("Dealer is showing:" + cardValReader(playerHand.get(1)));
+        System.out.println("Dealer is showing:" + cardValReader(dealerHand.get(1)));
         System.out.println("------------------------------------------------------");
 
         return(handTotals);

@@ -28,3 +28,4 @@ public class player{
         return amount;
     }
 }
+//17
