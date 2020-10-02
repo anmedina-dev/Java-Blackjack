@@ -116,7 +116,7 @@ public class blackjack{
                 System.out.println("You now have a total of " + user.getAmount() + " left to play with");
                 choice = false;
             }
-            if(handTotals[0]==21){
+            else if(handTotals[0]==21){
                 System.out.println("Blackjack!");
                 //User gets 1.5 times the bet amount for blackjack
                 user.setAmount(user.getAmount() + (1.5 * betAmount));
@@ -142,34 +142,38 @@ public class blackjack{
             return(user);
         }
         else{
+            //Read the current board
             handTotals = readHandAfterFlop(playerCards, dealerCards);
+
             while(handTotals[1]<17){
+                //Add a card to the dealer if he still has less than 17
                 dealerCards.add(deck.get(cardCounter));
                 cardCounter++;
+                handTotals = readHandAfterFlop(playerCards, dealerCards);
                 if(handTotals[1]>21){//Dealer busts
                     System.out.println("Dealer busted! You win!");
                     user.setAmount(user.getAmount() + betAmount);
-                    System.out.println("You know have a total of " + user.getAmount() + " left to play with");     
+                    System.out.println("You now have a total of " + user.getAmount() + " left to play with");     
                 }
                 else if(handTotals[1]==21 || handTotals[1]>handTotals[0]){//Dealer gets blackjack or wins outright
                     System.out.println("Dealer Wins!");
                     user.setAmount(user.getAmount() - betAmount);
                     System.out.println("You lost " + betAmount);
-                    System.out.println("You know have a total of " + user.getAmount() + " left to play with");
+                    System.out.println("You now have a total of " + user.getAmount() + " left to play with");
                 }
-                handTotals = readHandAfterFlop(playerCards, dealerCards);
             }
+
             //If dealer has more than 17 on the flop
             if(handTotals[1]<handTotals[0]){//You have more
                 System.out.println("You win!");
                 user.setAmount(user.getAmount() + betAmount);
-                System.out.println("You know have a total of " + user.getAmount() + " left to play with"); 
+                System.out.println("You now have a total of " + user.getAmount() + " left to play with"); 
             }
             else if(handTotals[0]<handTotals[1]){//Dealer has more
                 System.out.println("Dealer Wins!");
                 user.setAmount(user.getAmount() - betAmount);
                 System.out.println("You lost " + betAmount);
-                System.out.println("You know have a total of " + user.getAmount() + " left to play with");
+                System.out.println("You now have a total of " + user.getAmount() + " left to play with");
             }
             else{
                 System.out.println("It's a push! No one wins!");
