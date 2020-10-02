@@ -113,21 +113,21 @@ public class blackjack{
                 user.setAmount(user.getAmount() - betAmount);
                 System.out.println("You busted!");
                 System.out.println("You lost " + betAmount);
-                System.out.println("You know have a total of " + user.getAmount() + " left to play with");
+                System.out.println("You now have a total of " + user.getAmount() + " left to play with");
                 choice = false;
             }
             if(handTotals[0]==21){
                 System.out.println("Blackjack!");
                 //User gets 1.5 times the bet amount for blackjack
                 user.setAmount(user.getAmount() + (1.5 * betAmount));
-                System.out.println("You know have a total of " + user.getAmount() + "left to play with"); 
+                System.out.println("You now have a total of " + user.getAmount() + " left to play with"); 
                 choice = false;
             }
             else{ //If player chooses to push
-                System.out.println("Would you like to push or stand? (Type Push/Stand)");
+                System.out.println("Would you like to Hit or Stand? (Type Hit/Stand)");
                 Scanner scan = new Scanner(System.in);
                 playerChoice = scan.nextLine();
-                if(playerChoice.compareTo("Push")==0){
+                if(playerChoice.compareTo("Hit")==0 || playerChoice.compareTo("hit")==0){
                     playerCards.add(deck.get(cardCounter));
                     cardCounter++;
                 }
@@ -149,13 +149,13 @@ public class blackjack{
                 if(handTotals[1]>21){//Dealer busts
                     System.out.println("Dealer busted! You win!");
                     user.setAmount(user.getAmount() + betAmount);
-                    System.out.println("You know have a total of " + user.getAmount() + "left to play with");     
+                    System.out.println("You know have a total of " + user.getAmount() + " left to play with");     
                 }
                 else if(handTotals[1]==21 || handTotals[1]>handTotals[0]){//Dealer gets blackjack or wins outright
                     System.out.println("Dealer Wins!");
                     user.setAmount(user.getAmount() - betAmount);
                     System.out.println("You lost " + betAmount);
-                    System.out.println("You know have a total of " + user.getAmount() + "left to play with");
+                    System.out.println("You know have a total of " + user.getAmount() + " left to play with");
                 }
                 handTotals = readHandAfterFlop(playerCards, dealerCards);
             }
@@ -163,13 +163,13 @@ public class blackjack{
             if(handTotals[1]<handTotals[0]){//You have more
                 System.out.println("You win!");
                 user.setAmount(user.getAmount() + betAmount);
-                System.out.println("You know have a total of " + user.getAmount() + "left to play with"); 
+                System.out.println("You know have a total of " + user.getAmount() + " left to play with"); 
             }
             else if(handTotals[0]<handTotals[1]){//Dealer has more
                 System.out.println("Dealer Wins!");
                 user.setAmount(user.getAmount() - betAmount);
                 System.out.println("You lost " + betAmount);
-                System.out.println("You know have a total of " + user.getAmount() + "left to play with");
+                System.out.println("You know have a total of " + user.getAmount() + " left to play with");
             }
             else{
                 System.out.println("It's a push! No one wins!");
@@ -299,7 +299,7 @@ public class blackjack{
         //Dealer hands and total
         System.out.print("Dealer has:");
         try{
-            for(int i = 0; i < playerHand.size(); i++){
+            for(int i = 0; i < dealerHand.size(); i++){
                 System.out.print(" " + cardValReader(dealerHand.get(i)) + ",");
                 handTotals[1] = handTotals[1] + cardToNumber(dealerHand.get(i));
             }
