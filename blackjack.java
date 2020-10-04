@@ -1,4 +1,5 @@
 import java.util.*;
+//import javax.swing.JFrame;
 
 public class blackjack{
 
@@ -24,7 +25,6 @@ public class blackjack{
         System.out.println("Your profit: " + (playerOne.getAmount()-initialAmount));
         System.out.println("------------------------------------------------------");
 
-        return;
     }
 
     //Make player function taking in the name and the ammount they wanna play with
@@ -61,7 +61,6 @@ public class blackjack{
                 break;
         }
 
-        return;
     }
 
     //A single round of poker
@@ -121,7 +120,7 @@ public class blackjack{
                 //User gets 1.5 times the bet amount for blackjack
                 user.setAmount(user.getAmount() + (1.5 * betAmount));
                 System.out.println("You now have a total of " + user.getAmount() + " left to play with"); 
-                choice = false;
+                return(user);
             }
             else{ //If player chooses to push
                 System.out.println("Would you like to Hit or Stand? (Type Hit/Stand)");
@@ -141,7 +140,7 @@ public class blackjack{
         if(handTotals[0] > 21){
             return(user);
         }
-        else{
+        else{//Player hand is valid and not over 21
             //Read the current board
             handTotals = readHandAfterFlop(playerCards, dealerCards);
 
@@ -153,23 +152,24 @@ public class blackjack{
                 if(handTotals[1]>21){//Dealer busts
                     System.out.println("Dealer busted! You win!");
                     user.setAmount(user.getAmount() + betAmount);
-                    System.out.println("You now have a total of " + user.getAmount() + " left to play with");     
+                    System.out.println("You now have a total of " + user.getAmount() + " left to play with");
+                    return(user);
                 }
                 else if(handTotals[1]==21 || handTotals[1]>handTotals[0]){//Dealer gets blackjack or wins outright
                     System.out.println("Dealer Wins!");
                     user.setAmount(user.getAmount() - betAmount);
                     System.out.println("You lost " + betAmount);
                     System.out.println("You now have a total of " + user.getAmount() + " left to play with");
+                    return(user);
                 }
             }
 
             //If dealer has more than 17 on the flop
-            if(handTotals[1]<handTotals[0]){//You have more
+            if(handTotals[0]>handTotals[1]){//You have more
                 System.out.println("You win!");
                 user.setAmount(user.getAmount() + betAmount);
                 System.out.println("You now have a total of " + user.getAmount() + " left to play with"); 
-            }
-            else if(handTotals[0]<handTotals[1]){//Dealer has more
+            } else if(handTotals[0]<handTotals[1]){//Dealer has more
                 System.out.println("Dealer Wins!");
                 user.setAmount(user.getAmount() - betAmount);
                 System.out.println("You lost " + betAmount);
@@ -221,61 +221,27 @@ public class blackjack{
         
         //Textual value of card
         switch(cardVal.value){
-            case 1:
-                cardPlayed = "Ace of ";
-                break;
-            case 2:
-                cardPlayed = "2 of ";
-                break;
-            case 3:
-                cardPlayed = "3 of ";
-                break;
-            case 4:
-                cardPlayed = "4 of ";
-                break;
-            case 5:
-                cardPlayed = "5 of ";
-                break;
-            case 6:
-                cardPlayed = "6 of ";
-                break;
-            case 7:
-                cardPlayed = "7 of ";
-                break;
-            case 8:
-                cardPlayed = "8 of ";
-                break;
-            case 9:
-                cardPlayed = "9 of ";
-                break;
-            case 10:
-                cardPlayed = "10 of ";
-                break;
-            case 11:
-                cardPlayed = "J of ";
-                break;
-            case 12:
-                cardPlayed = "Q of ";
-                break;
-            case 13:
-                cardPlayed = "K of ";
-                break;    
+            case 1 -> cardPlayed = "Ace of ";
+            case 2 -> cardPlayed = "2 of ";
+            case 3 -> cardPlayed = "3 of ";
+            case 4 -> cardPlayed = "4 of ";
+            case 5 -> cardPlayed = "5 of ";
+            case 6 -> cardPlayed = "6 of ";
+            case 7 -> cardPlayed = "7 of ";
+            case 8 -> cardPlayed = "8 of ";
+            case 9 -> cardPlayed = "9 of ";
+            case 10 -> cardPlayed = "10 of ";
+            case 11 -> cardPlayed = "J of ";
+            case 12 -> cardPlayed = "Q of ";
+            case 13 -> cardPlayed = "K of ";    
         }
 
         //Textual value of the suit of the card
         switch(cardVal.suit){
-            case 1:
-                cardPlayed = cardPlayed + "Spades";
-                break;
-            case 2:
-                cardPlayed = cardPlayed + "Clubs";
-                break;
-            case 3:
-                cardPlayed = cardPlayed + "Hearts";
-                break;
-            case 4:
-                cardPlayed = cardPlayed + "Diamonds";
-                break;
+            case 1 -> cardPlayed = cardPlayed + "Spades";
+            case 2 -> cardPlayed = cardPlayed + "Clubs";
+            case 3 -> cardPlayed = cardPlayed + "Hearts";
+            case 4 -> cardPlayed = cardPlayed + "Diamonds";
         }
 
         return(cardPlayed);
